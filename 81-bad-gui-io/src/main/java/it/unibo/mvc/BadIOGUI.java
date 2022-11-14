@@ -14,9 +14,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.util.List;
 import java.util.Random;
+import java.nio.file.Files;
 
 /**
  * This class is a simple application that writes a random number on a file.
@@ -42,6 +41,32 @@ public class BadIOGUI {
         final JPanel canvas = new JPanel();
         canvas.setLayout(new BorderLayout());
         final JButton write = new JButton("Write on file");
+
+        //Ex 01.01
+        final JPanel newPanel = new JPanel();
+        newPanel.setLayout(new BoxLayout(newPanel, BoxLayout.LINE_AXIS));
+        canvas.add(newPanel, BorderLayout.CENTER);
+        newPanel.add(write);
+
+
+        //Ex 01.02
+        final JButton read = new JButton("Read from file");
+        newPanel.add(read);
+
+        //Ex 01.03
+        read.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(final ActionEvent e) {
+                try {
+                    final File f = new File(PATH);
+                    final String primaRiga = Files.readAllLines(f.toPath()).get(0);
+                    System.out.println(primaRiga); // NOPMD: println is required
+                } catch (IOException ex) {
+                    System.err.println(ex.getMessage()); // NOPMD: println is required
+                }
+            }
+        });
+
         frame.setContentPane(canvas);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         /*
@@ -89,6 +114,7 @@ public class BadIOGUI {
         /*
          * OK, ready to push the frame onscreen
          */
+        frame.pack();
         frame.setVisible(true);
     }
 
