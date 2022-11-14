@@ -16,6 +16,7 @@ import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Random;
 import java.nio.file.Files;
+import java.nio.file.Path;
 
 /**
  * This class is a simple application that writes a random number on a file.
@@ -58,11 +59,11 @@ public class BadIOGUI {
             @Override
             public void actionPerformed(final ActionEvent e) {
                 try {
-                    final File f = new File(PATH);
-                    final String primaRiga = Files.readAllLines(f.toPath()).get(0);
-                    System.out.println(primaRiga); // NOPMD: println is required
-                } catch (IOException ex) {
-                    System.err.println(ex.getMessage()); // NOPMD: println is required
+                    for (final var s : Files.readAllLines(Path.of(PATH))) {
+                        System.out.println(s); // NOPMD: println is required
+                    }
+                } catch (final IOException ex) {
+                    ex.printStackTrace(); // NOPMD: print stacktrace is required
                 }
             }
         });
@@ -84,7 +85,7 @@ public class BadIOGUI {
                  */
                 try (PrintStream ps = new PrintStream(PATH, StandardCharsets.UTF_8)) {
                     ps.print(randomGenerator.nextInt());
-                } catch (IOException e1) {
+                } catch (final IOException e1) {
                     JOptionPane.showMessageDialog(frame, e1, "Error", JOptionPane.ERROR_MESSAGE);
                     e1.printStackTrace(); // NOPMD: allowed as this is just an exercise
                 }
