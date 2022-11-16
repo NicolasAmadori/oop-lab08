@@ -3,7 +3,6 @@ package it.unibo.mvc;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -75,7 +74,7 @@ public class BadIOGUI {
          */
         write.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(final ActionEvent e){
+            public void actionPerformed(final ActionEvent e) {
                 /*
                  * This would be VERY BAD in a real application.
                  * 
@@ -85,8 +84,9 @@ public class BadIOGUI {
                  */
                 try (PrintStream ps = new PrintStream(PATH, StandardCharsets.UTF_8)) {
                     ps.print(randomGenerator.nextInt());
+                } catch (IOException e1) {
+                    e1.printStackTrace(); //NOPMD: required
                 }
-                throw new IOException();
             }
         });
     }
